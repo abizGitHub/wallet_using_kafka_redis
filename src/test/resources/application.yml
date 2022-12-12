@@ -1,0 +1,74 @@
+spring:
+  application:
+    name: interview
+  profiles:
+    active: test
+  messages:
+    basename: i18n/messages
+  jpa:
+    open-in-view: false
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    database: H2
+    hibernate:
+      ddl-auto: create
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+        implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
+    properties:
+      hibernate.id.new_generator_mappings: true
+      hibernate.connection.provider_disables_autocommit: true
+      hibernate.cache.use_second_level_cache: false
+      hibernate.cache.use_query_cache: false
+      hibernate.hbm2ddl.auto: update
+      hibernate.generate_statistics: false
+  datasource:
+    url: jdbc:h2:mem:demo;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      poolName: Hikari
+      auto-commit: false
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092, 127.0.0.1:9093, 127.0.0.1:9094
+    producer:
+      batch-size: 16
+      retries: 0
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: com.abiz.kafka.DtoSerializer
+    consumer:
+      auto-offset-reset: latest
+      enable-auto-commit: true
+      auto-commit-interval: 100
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.abiz.kafka.DtoDeserializer
+      group-id: wallet-consumer-group
+      topic: walletTopic
+      partitions: 0,1,2,3
+
+  redisson:
+    address: redis://127.0.0.1:6379
+    thread: 4
+    codec: org.redisson.codec.JsonJacksonCodec
+    connectionMinimumIdleSize: 12
+    idleConnectionTimeout: 10000
+    pingTimeout: 1000
+    connectTimeout: 10000
+    timeout: 3000
+    retryAttempts: 2
+    retryInterval: 1500
+    reconnectionTimeout: 3000
+    failedAttempts: 2
+    subscriptionsPerConnection: 5
+    subscriptionConnectionMinimumIdleSize: 1
+    subscriptionConnectionPoolSize: 50
+    connectionPoolSize: 64
+    database: 0
+    dnsMonitoring: false
+    dnsMonitoringInterval: 5000

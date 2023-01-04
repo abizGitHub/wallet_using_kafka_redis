@@ -1,4 +1,8 @@
 
+### redis is used for distributed lock between multiple instances of application which are listening to different partitions of kafka-messages .
+
+
+
 init-kafka
 
 java -jar -Dserver.port=8080 -Dspring.kafka.consumer.partitions=0,1,2,3 wallet-1.jar
